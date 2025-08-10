@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 
 
 const AdminPanel = () => {
@@ -13,7 +13,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const statsRes = await axios.get("/api/admin/stats");
+        const statsRes = await axiosInstance.get("/api/admin/stats");
         setStats({
           totalJobs: statsRes.data.totalJobs,
           applicants: statsRes.data.totalUsers, // assuming applicants = totalUsers
@@ -26,7 +26,7 @@ const AdminPanel = () => {
 
     const fetchRecruiters = async () => {
       try {
-        const res = await axios.get("/api/admin/recruiters");
+        const res = await axiosInstance.get("/api/admin/recruiters");
         setRecruiters(res.data.recruiterData || []);
       } catch (error) {
         console.error("Error fetching recruiters", error);

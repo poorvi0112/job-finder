@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const applicationController = require("../controllers/applicationController");
-const authMiddleware = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/auth");
 const upload = require("../middleware/uploadMiddleware");
-const isRecruiter = require("../middlewares/isRecruiter");
+const isRecruiter = require("../middleware/isRecruiter");
 // Apply to a job (applicant uploads resume)
 router.post("/apply/:jobId", authMiddleware, upload.single("resume"), applicationController.applyToJob);
 

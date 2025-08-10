@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const ManageApplicants = () => {
   const { jobId } = useParams();
@@ -9,7 +9,7 @@ const ManageApplicants = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const res = await axios.get(`/api/applications/job/${jobId}`);
+        const res = await axiosInstance.get(`/api/applications/job/${jobId}`);
         setApplicants(res.data);
       } catch (err) {
         console.error("Error fetching applicants", err);

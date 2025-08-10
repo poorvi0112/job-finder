@@ -8,7 +8,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import JobDetails from "./pages/JobDetails";
 import AdminPanel from "./pages/AdminPanel";
 import ApplyToJob from "./pages/ApplyToJob";
-import CreateJob from "./pages/CreateJob";
+import CreateJob from "./pages/Create";
 import EditJob from "./pages/EditJob";
 import ManageApplicants from "./pages/ManageApplicants";
 import UserProfile from "./pages/UserProfile";
@@ -18,7 +18,6 @@ import { useAuth } from "./context/AuthContext";
 
 const App = () => {
   const { user } = useAuth();
-
   return (
     <div>
       <Navbar />
@@ -36,7 +35,6 @@ const App = () => {
         <Route path="/manage-applicants/:id" element={user?.role=="recruiter"?<ManageApplicants />:<Navigate to="/login"/>} />
         <Route path="/profile" element={user? <UserProfile />: <Navigate to="/login" />} />
         <Route path="*" element={<NotFound />} />
-        
       </Routes>
     </div>
   );

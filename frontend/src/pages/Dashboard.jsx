@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await axios.get("/api/applications/my-applications");
+        const res = await axiosInstance.get("/api/applications/my-applications");
         setApplications(res.data);
       } catch (error) {
         console.error('Error fetching applications', error);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance"; 
 import { useNavigate } from "react-router-dom";
 
 const Create = () => {
@@ -15,7 +15,7 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/jobs", form);
+      await axiosInstance.post("/api/jobs", form);
       navigate("/recruiterdashboard");
     } catch (error) {
       console.error("Job posting failed", error);

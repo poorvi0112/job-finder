@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const recruiterController = require("../controllers/recruiterController");
-const authMiddleware = require("../middleware/authMiddleware");
-const isRecruiter = require("../middlewares/isRecruiter");
+const authMiddleware = require("../middleware/auth");
+const isRecruiter = require("../middleware/isRecruiter");
 
 // Get jobs posted by recruiter
 router.get("/my-jobs", authMiddleware,isRecruiter, recruiterController.getMyJobs);

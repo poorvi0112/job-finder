@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 
 const UserProfile = () => {
@@ -34,7 +34,7 @@ const UserProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("/api/users/update-profile", formData);
+      await axiosInstance.put("/api/users/update-profile", formData);
       alert('Profile updated successfully!');
     } catch (error) {
       console.error('Update failed', error);

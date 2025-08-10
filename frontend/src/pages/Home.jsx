@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -8,7 +8,7 @@ function Home() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/jobs");
+        const res = await axiosInstance.get("/api/jobs");
         setJobs(res.data.jobs);
       } catch (err) {
         console.error("Error fetching jobs:", err);

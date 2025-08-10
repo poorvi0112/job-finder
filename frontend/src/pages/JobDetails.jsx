@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -10,7 +10,7 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await axios.get(`/api/jobs/${jobId}`);
+        const res = await axiosInstance.get(`/api/jobs/${jobId}`);
         setJob(res.data);
       } catch (error) {
         console.error("Failed to fetch job", error);

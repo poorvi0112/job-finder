@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const EditJob = () => {
   const { jobId } = useParams();
@@ -16,7 +16,7 @@ const EditJob = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await axios.get(`/api/jobs/${jobId}`);
+        const res = await axiosInstance.get(`/api/jobs/${jobId}`);
         setForm({
           title: res.data.title || "",
           description: res.data.description || "",
@@ -38,7 +38,7 @@ const EditJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/jobs/${jobId}`, form);
+      await axiosInstance.put(`/api/jobs/${jobId}`, form);
       alert("Job updated successfully!");
       navigate("/recruiterdashboard");
     } catch (err) {
@@ -52,7 +52,7 @@ const EditJob = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`/api/jobs/${jobId}`);
+      await axiosInstance.delete(`/api/jobs/${jobId}`);
       alert("Job deleted successfully!");
       navigate("/recruiterdashboard");
     } catch (err) {

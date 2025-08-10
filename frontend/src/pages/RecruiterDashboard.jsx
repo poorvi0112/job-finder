@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const RecruiterDashboard = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("/api/recruiter/my-jobs");
+        const res = await axiosInstance.get("/api/recruiter/my-jobs");
         setJobs(res.data);
       } catch (error) {
         console.error('Error fetching recruiter jobs', error);

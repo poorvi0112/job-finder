@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const ApplyToJob = () => {
   const { jobId } = useParams();
@@ -13,7 +13,7 @@ const ApplyToJob = () => {
     formData.append("resume", resume);
 
     try {
-      await axios.post(`/api/applications/apply/${jobId}`, formData, {
+      await axiosInstance.post(`/api/applications/apply/${jobId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
