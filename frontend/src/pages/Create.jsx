@@ -16,7 +16,7 @@ const Create = () => {
     e.preventDefault();
     try {
       await axiosInstance.post("/api/jobs", form);
-      navigate("/recruiterdashboard");
+      navigate("/recruiter-dashboard");
     } catch (error) {
       console.error("Job posting failed", error);
       alert("Failed to post job");
