@@ -8,7 +8,8 @@ exports.applyToJob = async (req, res) => {
       return res.status(400).json({ error: "Resume is required" });
     }
 
-    const resumeUrl = `/uploads/resumes/${file.filename}`;
+    // ✅ Store full public URL
+    const resumeUrl = `${req.protocol}://${req.get("host")}/uploads/resumes/${file.filename}`;
     const { jobId } = req.params;
 
     if (!jobId) {
@@ -51,7 +52,7 @@ exports.getApplicationsByUser = async (req, res) => {
       id: app._id,
       status: app.status,
       appliedAt: app.appliedAt,
-      resumeUrl: app.resume,
+      resumeUrl: app.resume, // ✅ now contains full URL
       job: {
         id: app.job._id,
         title: app.job.title,
@@ -81,7 +82,7 @@ exports.getApplicantsByJob = async (req, res) => {
         name: app.applicant.name,
         email: app.applicant.email,
       },
-      resume: app.resume,
+      resume: app.resume, // ✅ now contains full URL
       status: app.status,
       appliedAt: app.createdAt,
     }));
