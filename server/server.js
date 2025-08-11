@@ -11,17 +11,21 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://your-frontend-domain.onrender.com" // deployed frontend
+];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // Allow requests with no origin (curl, Postman)
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow non-browser clients
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
-    return callback(null, true);
-  }
+    const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+    return callback(new Error(msg), false);
+  },
+  credentials: true
 }));
 
 
