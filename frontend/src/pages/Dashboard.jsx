@@ -55,13 +55,15 @@ const Dashboard = () => {
                   <Link to={`/jobs/${app.job?.id}`} className="text-blue-600 hover:underline">
                     View Job Details
                   </Link>
-                  <a
-                    href={app.resumeUrl}
-                    download
-                    className="text-green-600 hover:underline"
-                  >
-                    Download Resume
-                  </a>
+                 <a
+                  href={app.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 hover:underline"
+                 >
+                  View Resume
+                 </a>
+
                 </div>
               </li>
             ))}
