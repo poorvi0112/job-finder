@@ -10,7 +10,8 @@ exports.applyToJob = async (req, res) => {
 
     const resumeUrl = `/uploads/resumes/${file.filename}`;
 
-    const { jobId, coverLetter } = req.body;
+    const { jobId } = req.params;
+
 
     if (!jobId) {
       return res.status(400).json({ error: "Job ID is required" });
@@ -19,7 +20,7 @@ exports.applyToJob = async (req, res) => {
     // Optional: Check if user already applied to this job
     const alreadyApplied = await Application.findOne({
       jobId,
-      userId: req.user,
+      userId: req.user._id,
     });
 
     if (alreadyApplied) {
@@ -28,8 +29,7 @@ exports.applyToJob = async (req, res) => {
 
     const application = new Application({
       jobId,
-      userId: req.user,
-      coverLetter,
+      userId: req.user._idid,
       resume: resumeUrl,
       status: "Applied", // default status
     });
@@ -90,10 +90,9 @@ exports.getApplicantsByJob = async (req, res) => {
     }));
 
     res.status(200).json(formattedApplicants);
-  } catch (err) {
-    console.error("Error fetching applicants:", err);
-    res.status(500).json({ error: "Failed to fetch applicants" });
-  }
+  } catch { console.error("Apply error:", err);
+           res.status(500).json({ error: err.message, stack: err.stack });
+    }
 };
 
 

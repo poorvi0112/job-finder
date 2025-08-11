@@ -9,7 +9,7 @@ function Home() {
     const fetchJobs = async () => {
       try {
         const res = await axiosInstance.get("/api/jobs");
-        setJobs(res.data.jobs || []);
+        setJobs(res.data);
       } catch (err) {
         console.error("Error fetching jobs:", err);
       }
@@ -24,11 +24,13 @@ function Home() {
         <p>No jobs found.</p>
       ) : (
         jobs.map((job) => (
-          <div key={job._id} className="border p-3 mb-3 rounded shadow">
+          <div key={job.id} className="border p-3 mb-3 rounded shadow">
             <h2 className="font-bold">{job.title}</h2>
             <p>{job.company} - {job.location}</p>
             <p>₹{job.salaryRange}</p>
-            <Link to={`/jobs/${job._id}`} className="text-blue-600">View Details →</Link>
+            <p>{job.postedAt}</p>
+            <p>{job.recruiter}</p>
+            <Link to={`/jobs/${job.id}`} className="text-blue-600">View Details →</Link>
           </div>
         ))
       )}

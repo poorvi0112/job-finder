@@ -32,7 +32,7 @@ const JobDetails = () => {
       <p className="text-gray-700 mt-4">{job.description}</p>
 
       <button
-        onClick={() => navigate(`/apply/${job._id}`)}
+        onClick={() => navigate(`/apply/${job.id}`)}
         className="mt-6 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
       >
         Apply Now
