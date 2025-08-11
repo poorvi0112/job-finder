@@ -4,13 +4,7 @@ import axiosInstance from "../utils/axiosInstance";
 
 const EditJob = () => {
   const { jobId } = useParams();
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    location: "",
-    salaryRange: "",
-  });
-
+  const [form, setForm] = useState({ title: "", description: "", location: "", salaryRange: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,20 +21,17 @@ const EditJob = () => {
         console.error("Error fetching job details:", err);
       }
     };
-
     fetchJob();
   }, [jobId]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axiosInstance.put(`/api/jobs/${jobId}`, form);
       alert("Job updated successfully!");
-      navigate("/recruiterdashboard");
+      navigate("/recruiter-dashboard");
     } catch (err) {
       console.error("Error updating job:", err);
       alert("Failed to update job");
@@ -48,13 +39,11 @@ const EditJob = () => {
   };
 
   const handleDelete = async () => {
-    const confirm = window.confirm("Are you sure you want to delete this job?");
-    if (!confirm) return;
-
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
     try {
       await axiosInstance.delete(`/api/jobs/${jobId}`);
       alert("Job deleted successfully!");
-      navigate("/recruiterdashboard");
+      navigate("/recruiter-dashboard");
     } catch (err) {
       console.error("Error deleting job:", err);
       alert("Failed to delete job");
@@ -62,63 +51,14 @@ const EditJob = () => {
   };
 
   return (
-    <form className="p-4 max-w-xl mx-auto" onSubmit={handleSubmit}>
-      <h2 className="text-xl font-bold mb-4">Edit Job</h2>
-
-      <input
-        type="text"
-        name="title"
-        placeholder="Job Title"
-        className="block w-full mb-3 p-2 border rounded"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
-
-      <textarea
-        name="description"
-        placeholder="Job Description"
-        className="block w-full mb-3 p-2 border rounded"
-        value={form.description}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-        type="text"
-        name="location"
-        placeholder="Location"
-        className="block w-full mb-3 p-2 border rounded"
-        value={form.location}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-        type="text"
-        name="salaryRange"
-        placeholder="Salary Range (e.g., 3-5 LPA)"
-        className="block w-full mb-3 p-2 border rounded"
-        value={form.salaryRange}
-        onChange={handleChange}
-        required
-      />
-
-      <div className="flex gap-4 mt-4">
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Save Changes
-        </button>
-
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
-          Delete Job
-        </button>
+    <form onSubmit={handleSubmit} className="p-4 max-w-lg mx-auto">
+      <input name="title" value={form.title} onChange={handleChange} placeholder="Title" className="block w-full mb-2 p-2 border" />
+      <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" className="block w-full mb-2 p-2 border" />
+      <input name="location" value={form.location} onChange={handleChange} placeholder="Location" className="block w-full mb-2 p-2 border" />
+      <input name="salaryRange" value={form.salaryRange} onChange={handleChange} placeholder="Salary Range" className="block w-full mb-2 p-2 border" />
+      <div className="flex gap-2">
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+        <button type="button" onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
       </div>
     </form>
   );

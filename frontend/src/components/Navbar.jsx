@@ -12,29 +12,31 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 p-4 text-white flex justify-between">
-      <Link to="/" className="font-bold text-xl">
-        JobFinder
-      </Link>
-      <div className="space-x-4">
+    <nav className="bg-blue-600 p-4 text-white flex justify-between">
+      <Link to="/" className="font-bold text-xl">JobFinder</Link>
+
+      <div>
         {!user && (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login" className="mx-2">Login</Link>
+            <Link to="/register" className="mx-2">Register</Link>
           </>
         )}
+
         {user && (
           <>
-            {user.role === "applicant" && <Link to="/dashboard">Dashboard</Link>}
+            {user.role === "applicant" && <Link to="/dashboard" className="mx-2">Dashboard</Link>}
+
             {user.role === "recruiter" && (
               <>
-                <Link to="/recruiter-dashboard">Recruiter Dashboard</Link>
-                <Link to="/create-job">Post Job</Link>
+                <Link to="/recruiter-dashboard" className="mx-2">Recruiter Dashboard</Link>
+                <Link to="/create-job" className="mx-2">Post Job</Link>
               </>
             )}
-            {user.role === "admin" && <Link to="/admin">Admin Panel</Link>}
-             <Link to="/profile" className="hover:underline">Profile</Link>
-            <button onClick={handleLogout}>Logout</button>
+
+            {user.role === "admin" && <Link to="/admin" className="mx-2">Admin Panel</Link>}
+            <Link to="/profile" className="mx-2">Profile</Link>
+            <button onClick={handleLogout} className="mx-2">Logout</button>
           </>
         )}
       </div>
