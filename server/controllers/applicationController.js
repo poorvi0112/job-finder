@@ -47,18 +47,25 @@ exports.applyToJob = async (req, res) => {
 exports.getApplicationsByUser = async (req, res) => {
   try {
     const applications = await Application.find({ applicant: req.user._id })
-      .populate("job", "title company status")
+      .populate({
+        path: "job",
+        select: "title status recruiterId",
+        populate: {
+          path: "recruiterId",
+          select: "company name email", // assuming company field exists in User model
+        },
+      })
       .sort({ createdAt: -1 });
 
     const formattedApplications = applications.map(app => ({
       _id: app._id,
       status: app.status,
-      appliedAt: app.createdAt, // ✅ use createdAt instead of manual appliedAt
+      appliedAt: app.createdAt, 
       resumeUrl: app.resume,
       job: {
         id: app.job?._id,
         title: app.job?.title,
-        company: app.job?.company,
+        company: app.job?.recruiterId?.company || "N/A",
         jobStatus: app.job?.status,
       },
     }));

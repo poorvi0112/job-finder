@@ -22,7 +22,7 @@ const ApplyToJob = () => {
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
-      alert("Failed to apply");
+      alert(err.response?.data?.error || "Failed to apply");
     }
   };
 
