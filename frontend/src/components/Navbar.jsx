@@ -30,7 +30,7 @@ const Navbar = () => {
             {user.role === "recruiter" && (
               <>
                 <Link to="/recruiter-dashboard" className="mx-2">Recruiter Dashboard</Link>
-                <Link to="/create-job" className="mx-2">Post Job</Link>
+                
               </>
             )}
 

@@ -20,13 +20,9 @@ const applicationSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "accepted", "rejected"],
       default: "pending",
-    },
-    appliedAt: {
-      type: Date,
-      default: Date.now,
-    },
+    }
   },
-  { timestamps: true }
+  { timestamps: true } // ✅ createdAt & updatedAt automatically
 );
 
 module.exports = mongoose.model("Application", applicationSchema);

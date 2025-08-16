@@ -29,7 +29,7 @@ function Home() {
             <p>{job.company} - {job.location}</p>
             <p>₹{job.salaryRange}</p>
             <p>{job.postedAt}</p>
-            <p>{job.recruiter}</p>
+            <p>{job.recruiterId}</p>
             <Link to={`/jobs/${job.id}`} className="text-blue-600">View Details →</Link>
           </div>
         ))

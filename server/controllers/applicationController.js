@@ -1,4 +1,5 @@
 const Application = require("../models/Application");
+const path = require("path");
 
 // Apply to a job
 exports.applyToJob = async (req, res) => {
@@ -8,10 +9,11 @@ exports.applyToJob = async (req, res) => {
       return res.status(400).json({ error: "Resume is required" });
     }
 
-    // ✅ Store full public URL
-    const resumeUrl = `${req.protocol}://${req.get("host")}/uploads/resumes/${file.filename}`;
-    const { jobId } = req.params;
+    // ✅ Ensure HTTPS on Render
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+    const resumeUrl = `${protocol}://${req.get("host")}/uploads/resumes/${file.filename}`;
 
+    const { jobId } = req.params;
     if (!jobId) {
       return res.status(400).json({ error: "Job ID is required" });
     }
@@ -30,7 +32,7 @@ exports.applyToJob = async (req, res) => {
       job: jobId,
       applicant: req.user._id,
       resume: resumeUrl,
-      status: "pending", // ✅ matches schema enum
+      status: "pending",
     });
 
     await application.save();
@@ -49,15 +51,15 @@ exports.getApplicationsByUser = async (req, res) => {
       .sort({ createdAt: -1 });
 
     const formattedApplications = applications.map(app => ({
-      id: app._id,
+      _id: app._id,
       status: app.status,
-      appliedAt: app.appliedAt,
-      resumeUrl: app.resume, // ✅ now contains full URL
+      appliedAt: app.createdAt, // ✅ use createdAt instead of manual appliedAt
+      resumeUrl: app.resume,
       job: {
-        id: app.job._id,
-        title: app.job.title,
-        company: app.job.company,
-        jobStatus: app.job.status,
+        id: app.job?._id,
+        title: app.job?.title,
+        company: app.job?.company,
+        jobStatus: app.job?.status,
       },
     }));
 
@@ -79,10 +81,10 @@ exports.getApplicantsByJob = async (req, res) => {
     const formattedApplicants = applications.map(app => ({
       _id: app._id,
       applicant: {
-        name: app.applicant.name,
-        email: app.applicant.email,
+        name: app.applicant?.name,
+        email: app.applicant?.email,
       },
-      resume: app.resume, // ✅ now contains full URL
+      resume: app.resume,
       status: app.status,
       appliedAt: app.createdAt,
     }));
@@ -90,6 +92,6 @@ exports.getApplicantsByJob = async (req, res) => {
     res.status(200).json(formattedApplicants);
   } catch (err) {
     console.error("Error fetching applicants:", err);
-    res.status(500).json({ error: err.message, stack: err.stack });
+    res.status(500).json({ error: err.message });
   }
 };

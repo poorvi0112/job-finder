@@ -22,6 +22,16 @@ const Dashboard = () => {
     }
   }, [user]);
 
+  const formatStatus = (status) => {
+    return status.charAt(0).toUpperCase() + status.slice(1);
+  };
+
+  const getStatusClass = (status) => {
+    if (status === 'pending') return 'bg-yellow-200 text-yellow-800';
+    if (status === 'accepted') return 'bg-green-200 text-green-800';
+    return 'bg-red-200 text-red-800';
+  };
+
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
@@ -41,29 +51,28 @@ const Dashboard = () => {
                   <div>
                     <h4 className="text-lg font-bold">{app.job?.title}</h4>
                     <p className="text-gray-700">Company: {app.job?.company}</p>
-                    <p className="text-sm text-gray-500">Applied On: {new Date(app.appliedAt).toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-500">
+                      Applied On: {new Date(app.appliedAt).toLocaleDateString()}
+                    </p>
                   </div>
-                  <span className={`px-3 py-1 text-sm font-semibold rounded-full ${
-                    app.status === 'Pending' ? 'bg-yellow-200 text-yellow-800' :
-                    app.status === 'Accepted' ? 'bg-green-200 text-green-800' :
-                    'bg-red-200 text-red-800'
-                  }`}>
-                    {app.status}
+                  <span
+                    className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusClass(app.status)}`}
+                  >
+                    {formatStatus(app.status)}
                   </span>
                 </div>
                 <div className="mt-3 flex gap-4">
                   <Link to={`/jobs/${app.job?.id}`} className="text-blue-600 hover:underline">
                     View Job Details
                   </Link>
-                 <a
-                  href={app.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-600 hover:underline"
-                 >
-                  View Resume
-                 </a>
-
+                  <a
+                    href={app.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 hover:underline"
+                  >
+                    View Resume
+                  </a>
                 </div>
               </li>
             ))}

@@ -4,7 +4,7 @@ const Job = require("../models/Job");
 exports.createJob = async (req, res) => {
   try {
     const { title, description, location, salaryRange, status } = req.body;
-    const recruiterId = req.user;
+    const recruiterId = req.user._id;
 
     const newJob = new Job({
       title,
@@ -77,12 +77,15 @@ exports.getJobById = async (req, res) => {
 
 // @desc    Update job (Recruiter only)
 exports.updateJob = async (req, res) => {
+  
   try {
     const job = await Job.findById(req.params.id);
 
     if (!job) return res.status(404).json({ error: "Job not found" });
+    console.log("DB recruiterId:", job.recruiterId.toString());
+   console.log("Logged in userId:", req.user._id.toString());
 
-    if (job.recruiterId.toString() !== req.user.toString()) {
+    if (job.recruiterId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: "Unauthorized to update this job" });
     }
 
@@ -98,6 +101,7 @@ exports.updateJob = async (req, res) => {
     res.status(200).json(updatedJob);
   } catch (err) {
     res.status(500).json({ error: "Failed to update job" });
+    
   }
 };
 
@@ -108,11 +112,11 @@ exports.deleteJob = async (req, res) => {
 
     if (!job) return res.status(404).json({ error: "Job not found" });
 
-    if (job.recruiterId.toString() !== req.user.toString()) {
+    if (job.recruiterId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: "Unauthorized to delete this job" });
     }
 
-    await job.remove();
+    await job.deleteOne();
     res.status(200).json({ message: "Job deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete job" });
