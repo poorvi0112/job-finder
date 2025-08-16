@@ -6,39 +6,37 @@ exports.updateProfile = async (req, res) => {
     const role = req.user.role;
     const updates = req.body;
 
-    // Common fields
     let allowedFields = ["name", "email"];
+    if (role === "applicant") allowedFields.push("resume");
+    else if (role === "recruiter") allowedFields.push("company", "designation", "website");
 
-    // Role-specific fields
-    if (role === "applicant") {
-      allowedFields.push("resume");
-    } else if (role === "recruiter") {
-      allowedFields.push("company", "designation", "website");
-    }
-
-    // Filter only allowed fields
     const filteredUpdates = {};
     for (let key of allowedFields) {
-      if (updates[key] !== undefined) {
-        filteredUpdates[key] = updates[key];
-      }
+      if (updates[key] !== undefined) filteredUpdates[key] = updates[key];
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, filteredUpdates, {
       new: true,
-      runValidators: true,
+      runValidators: true
     }).select("-password");
 
     res.status(200).json({
       success: true,
-      message: "Profile updated successfully",
-      user: updatedUser,
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        company: updatedUser.company || null,
+        designation: updatedUser.designation || null,
+        website: updatedUser.website || null
+      }
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Server error while updating profile",
-      error: error.message,
+      error: error.message
     });
   }
 };
