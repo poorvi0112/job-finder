@@ -11,5 +11,5 @@ router.post("/apply/:jobId", authMiddleware, upload.single("resume"), applicatio
 router.get("/my-applications", authMiddleware, applicationController.getApplicationsByUser);
 
 router.get("/job/:jobId", authMiddleware,isRecruiter, applicationController.getApplicantsByJob);
-router.put("/update-status/:id",applicationController/updateApplicationStatus);
+router.put("/update-status/:id",authMiddleware,isRecruiter,applicationController.updateApplicationStatus);
 module.exports = router;
