@@ -15,7 +15,7 @@ exports.sendAcceptedEmail = async (to, name) => {
     from: process.env.EMAIL_USER,
     to,
     subject: "Application Accepted 🎉",
-    text: `Hello ${name},\n\nCongratulations! Your application has been accepted.\n\n Our Team will Contact with you regarding further process soon.\n\n Best regards,\nJobifyHub Team`
+    text: `Hello ${name},\n\nCongratulations! Your application has been accepted.\n\n Our Team will Contact with you regarding further process soon.\n\n Best regards,\nJob Finder Team`
   });
 };
 
@@ -25,6 +25,6 @@ exports.sendRejectedEmail = async (to, name) => {
     from: process.env.EMAIL_USER,
     to,
     subject: "Application Update",
-    text: `Hello ${name},\n\nWe regret to inform you that your application has been rejected.\n\nBest regards,\nJobifyHub Team`
+    text: `Hello ${name},\n\nWe regret to inform you that your application has been rejected.\n\nBest regards,\nJob Finder Team`
   });
 };

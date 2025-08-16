@@ -28,8 +28,8 @@ function Home() {
             <h2 className="font-bold">{job.title}</h2>
             <p>{job.company} - {job.location}</p>
             <p>₹{job.salaryRange}</p>
-            <p>{job.postedAt}</p>
-            <p>{job.recruiterId}</p>
+            <p>{new Date(job.postedAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</p>
+             <p>{job.recruiter}</p>
             <Link to={`/jobs/${job.id}`} className="text-blue-600">View Details →</Link>
           </div>
         ))
