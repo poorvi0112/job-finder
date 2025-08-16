@@ -5,9 +5,30 @@ const User = require("../models/User");
 // Get all jobs posted by the current recruiter
 exports.getMyJobs = async (req, res) => {
   try {
-    const jobs = await Job.find({ recruiterId: req.user._id });
-    res.status(200).json(jobs);
+    // Fetch jobs posted by the recruiter and populate company & name
+    const jobs = await Job.find({ recruiterId: req.user._id })
+      .populate("recruiterId", "company name");
+
+    // Add applicant count to each job
+    const jobsWithCounts = await Promise.all(
+      jobs.map(async (job) => {
+        const applicantCount = await Application.countDocuments({ jobId: job._id });
+        return {
+          _id: job._id,
+          title: job.title,
+          location: job.location,
+          salaryRange: job.salaryRange,
+          status: job.status,
+          company: job.recruiterId?.company || "N/A",
+          recruiterName: job.recruiterId?.name || "N/A",
+          applicantCount,
+        };
+      })
+    );
+
+    res.status(200).json(jobsWithCounts);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to fetch jobs" });
   }
 };

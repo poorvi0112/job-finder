@@ -16,6 +16,7 @@ const EditJob = () => {
           description: res.data.description || "",
           location: res.data.location || "",
           salaryRange: res.data.salaryRange || "",
+          status: res.data.status || "",
         });
       } catch (err) {
         console.error("Error fetching job details:", err);
@@ -56,6 +57,24 @@ const EditJob = () => {
       <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" className="block w-full mb-2 p-2 border" />
       <input name="location" value={form.location} onChange={handleChange} placeholder="Location" className="block w-full mb-2 p-2 border" />
       <input name="salaryRange" value={form.salaryRange} onChange={handleChange} placeholder="Salary Range" className="block w-full mb-2 p-2 border" />
+      <div className="flex items-center gap-2 mb-2">
+        <span className="font-medium">Job Status:</span>
+        <button
+          type="button"
+          onClick={() =>
+            setForm((prev) => ({
+              ...prev,
+              status: prev.status === "Open" ? "Closed" : "Open",
+            }))
+          }
+          className={`px-4 py-2 my-5  font-semibold ${form.status === "Open"
+              ? "bg-green-500 text-white"
+              : "bg-red-500 text-white"
+            }`}
+        >
+          {form.status}
+        </button>
+      </div>
       <div className="flex gap-2">
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
         <button type="button" onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
