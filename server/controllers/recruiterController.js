@@ -12,7 +12,7 @@ exports.getMyJobs = async (req, res) => {
     // Add applicant count to each job
     const jobsWithCounts = await Promise.all(
       jobs.map(async (job) => {
-        const applicantCount = await Application.countDocuments({ jobId: job._id });
+        const applicantCount = await Application.countDocuments({ job: job._id });
         return {
           _id: job._id,
           title: job.title,
