@@ -19,6 +19,17 @@ const ManageApplicants = () => {
     fetchApplicants();
   }, [jobId]);
 
+  const updateStatus = async (appId, status) => {
+    try {
+      await axiosInstance.put(`/api/applications/update-status/${appId}`, { status });
+      setApplicants(prev =>
+        prev.map(app => app._id === appId ? { ...app, status } : app)
+      );
+    } catch (err) {
+      console.error("Error updating status", err);
+    }
+  };
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Manage Applicants</h2>
@@ -44,6 +55,22 @@ const ManageApplicants = () => {
               >
                 Download Resume
               </a>
+
+              <div className="mt-3 flex gap-3">
+                <button
+                  onClick={() => updateStatus(app._id, "accepted")}
+                  className="px-3 py-1 bg-green-500 text-white rounded-lg"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => updateStatus(app._id, "rejected")}
+                  className="px-3 py-1 bg-red-500 text-white rounded-lg"
+                >
+                  Reject
+                </button>
+              </div>
+              
             </div>
           ))}
         </div>

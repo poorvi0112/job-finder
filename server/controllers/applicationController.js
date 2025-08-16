@@ -1,4 +1,5 @@
 const Application = require("../models/Application");
+const { sendAcceptedEmail, sendRejectedEmail } = require("../utils/emailTemplates");
 const path = require("path");
 const fs = require("fs");
 
@@ -100,5 +101,35 @@ exports.getApplicantsByJob = async (req, res) => {
   } catch (err) {
     console.error("Error fetching applicants:", err);
     res.status(500).json({ error: err.message });
+  }
+};
+exports.updateApplicationStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["accepted", "rejected"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+
+    const application = await Application.findById(id).populate("applicant");
+    if (!application) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    application.status = status;
+    await application.save();
+
+    
+    if (status === "accepted") {
+      await sendAcceptedEmail(application.applicant.email, application.applicant.name);
+    } else if (status === "rejected") {
+      await sendRejectedEmail(application.applicant.email, application.applicant.name);
+    }
+
+    res.json({ message: `Application ${status} successfully`, application });
+  } catch (err) {
+    console.error("Error updating status", err);
+    res.status(500).json({ error: "Server error" });
   }
 };
