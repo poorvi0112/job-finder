@@ -82,9 +82,6 @@ exports.updateJob = async (req, res) => {
     const job = await Job.findById(req.params.id);
 
     if (!job) return res.status(404).json({ error: "Job not found" });
-    console.log("DB recruiterId:", job.recruiterId.toString());
-   console.log("Logged in userId:", req.user._id.toString());
-
     if (job.recruiterId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: "Unauthorized to update this job" });
     }

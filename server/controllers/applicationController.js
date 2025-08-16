@@ -1,32 +1,32 @@
 const Application = require("../models/Application");
 const path = require("path");
+const fs = require("fs");
 
 // Apply to a job
 exports.applyToJob = async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) {
-      return res.status(400).json({ error: "Resume is required" });
-    }
+     const { jobId } = req.params;
+    if (!jobId) return res.status(400).json({ error: "Job ID is required" });
 
-    // ✅ Ensure HTTPS on Render
-    const protocol = req.headers["x-forwarded-proto"] || req.protocol;
-    const resumeUrl = `${protocol}://${req.get("host")}/uploads/resumes/${file.filename}`;
-
-    const { jobId } = req.params;
-    if (!jobId) {
-      return res.status(400).json({ error: "Job ID is required" });
-    }
-
-    // Check if already applied
+    // 🔹 Check duplicate BEFORE using resume
     const alreadyApplied = await Application.findOne({
       job: jobId,
       applicant: req.user._id,
     });
-
+    
     if (alreadyApplied) {
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
       return res.status(400).json({ error: "You have already applied to this job" });
     }
+
+    const file = req.file;
+     if(!file) return res.status(400).json({ error: "Resume is required" });
+    
+    // ✅ Ensure HTTPS on Render
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+    const resumeUrl = `${protocol}://${req.get("host")}/uploads/resumes/${file.filename}`;
 
     const application = new Application({
       job: jobId,
