@@ -26,7 +26,7 @@ exports.createJob = async (req, res) => {
 exports.getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find({}, "title location salaryRange status createdAt")
-      .populate("recruiterId", "company username");
+      .populate("recruiterId", "company name");
 
     const formattedJobs = jobs.map(job => ({
       id: job._id,
@@ -36,7 +36,7 @@ exports.getAllJobs = async (req, res) => {
       status: job.status,
       postedAt: job.createdAt,
       company: job.recruiterId?.company || "N/A",
-      recruiter: job.recruiterId?.username || "N/A"
+      recruiter: job.recruiterId?.name || "N/A"
     }));
 
     res.status(200).json(formattedJobs);
@@ -64,7 +64,7 @@ exports.getJobById = async (req, res) => {
       updatedAt: job.updatedAt,
       company: job.recruiterId?.company || "N/A",
       recruiter: {
-        name: job.recruiterId?.username || "N/A",
+        name: job.recruiterId?.name || "N/A",
         email: job.recruiterId?.email || "N/A"
       }
     };
