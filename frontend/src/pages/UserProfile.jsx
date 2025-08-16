@@ -3,7 +3,7 @@ import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from '../context/AuthContext';
 
 const UserProfile = () => {
-  const { user } = useAuth();
+  const { user ,setUser } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,6 +35,7 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       await axiosInstance.put("/api/users/update-profile", formData);
+      setUser(res.data.user);
       alert('Profile updated successfully!');
     } catch (error) {
       console.error('Update failed', error);

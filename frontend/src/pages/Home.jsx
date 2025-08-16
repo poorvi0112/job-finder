@@ -5,17 +5,16 @@ import { Link } from "react-router-dom";
 function Home() {
   const [jobs, setJobs] = useState([]);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await axiosInstance.get("/api/jobs");
-        setJobs(res.data);
-      } catch (err) {
+useEffect(() => { 
+  const fetchJobs = async () => 
+    { try { 
+      const res = await axiosInstance.get("/api/jobs");
+      setJobs(res.data);
+     } catch (err) { 
         console.error("Error fetching jobs:", err);
-      }
-    };
-    fetchJobs();
-  }, []);
+       } }; 
+fetchJobs(); }, []);
+
 
   return (
     <div>

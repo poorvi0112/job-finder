@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       if (!token) return;
       try {
         const res = await axiosInstance.get("/api/auth/me");
-        setUser(res.data);
+        setUser(res.data.user);
       } catch {
         setUser(null);
       }

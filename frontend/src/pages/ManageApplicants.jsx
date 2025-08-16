@@ -59,13 +59,13 @@ const ManageApplicants = () => {
               <div className="mt-3 flex gap-3">
                 <button
                   onClick={() => updateStatus(app._id, "accepted")}
-                  className="px-3 py-1 bg-green-500 text-white rounded-lg"
+                  className="px-3 py-1 bg-green-500 text-white rounded-lg active:bg-green-700"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => updateStatus(app._id, "rejected")}
-                  className="px-3 py-1 bg-red-500 text-white rounded-lg"
+                  className="px-3 py-1 bg-red-500 text-white rounded-lg active:bg-red-700"
                 >
                   Reject
                 </button>
