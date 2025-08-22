@@ -39,6 +39,8 @@ Manage all jobs and applications.
 
 Frontend: React.js, Tailwind CSS, Axios, React Router
 
+Developer - Poorvi Gupta
+
 Backend: Node.js, Express.js
 
 Database: MongoDB with Mongoose
