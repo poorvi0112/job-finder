@@ -46,7 +46,7 @@ const RecruiterDashboard = () => {
               <p className="text-sm text-gray-700">Company: {job.company}</p>
               <p className="text-sm text-gray-700">Location: {job.location}</p>
               <p className="text-sm text-gray-700">
-                Applicants: {job.applications?.length || 0}
+                Applicants: {job.applicantCount || 0}
               </p>
 
               <div className="mt-3 space-x-4">

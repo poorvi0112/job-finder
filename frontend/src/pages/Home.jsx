@@ -28,7 +28,7 @@ fetchJobs(); }, []);
             <p>{job.company} - {job.location}</p>
             <p>₹{job.salaryRange}</p>
             <p>{new Date(job.postedAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</p>
-             <p>{job.recruiter}</p>
+             <p><strong>Recruiter</strong> - {job.recruiter}</p>
             <Link to={`/jobs/${job.id}`} className="text-blue-600">View Details →</Link>
           </div>
         ))
